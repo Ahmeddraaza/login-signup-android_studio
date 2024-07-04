@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+
 public class database_model extends SQLiteOpenHelper {
 
     public static final String databaseName = "Signup.db";
@@ -46,7 +48,6 @@ public class database_model extends SQLiteOpenHelper {
         cv.put("password", password);
 
         long result = MyDatabase.insert("allusers", null, cv);
-
         return result != -1;
     }
 
@@ -56,5 +57,24 @@ public class database_model extends SQLiteOpenHelper {
         boolean exists = cursor.getCount() > 0;
         cursor.close();
         return exists;
+    }
+
+    public ArrayList<userModal> getLoggedInuserdetail(String email) {
+        ArrayList<userModal> userModdals = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery("SELECT firstname, accountbalance FROM allusers WHERE email = ?", new String[]{email});
+
+        if (cursor.moveToFirst()) {
+            String name = cursor.getString(0);
+            double balance = cursor.getDouble(1);
+
+            userModal user = new userModal();
+            user.setFirstname(name);
+            user.setAccountbalance(Double.parseDouble(String.valueOf(balance)));
+
+            userModdals.add(user);
+        }
+        cursor.close();
+        return userModdals;
     }
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.crypto_app.databinding.LoginActivityBinding;
 
@@ -18,6 +19,8 @@ public class login_activity extends AppCompatActivity {
 
     private EditText editTextUsername, editTextPassword;
     private TextView textViewRegister;
+
+    private AppCompatButton loginbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class login_activity extends AppCompatActivity {
         editTextUsername = findViewById(R.id.editTextText);
         editTextPassword = findViewById(R.id.editTextText2);
         textViewRegister = findViewById(R.id.textView7);
+        loginbtn = findViewById(R.id.button);
 
         textViewRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +54,9 @@ public class login_activity extends AppCompatActivity {
                     boolean loginSuccessful = databaseHelper.checkEmail(username);
                     if (loginSuccessful) {
                         Toast.makeText(login_activity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(login_activity.this, dashboard_activity.class);
+                        intent.putExtra("key_email", username);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(login_activity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
                     }
