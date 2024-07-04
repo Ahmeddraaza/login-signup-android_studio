@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_btn1"
+        android:icon="@drawable/bottom_btn1"
+        android:title="Button 1" />
+    <item
+        android:id="@+id/bottom_btn2"
+        android:icon="@drawable/bottom_btn2"
+        android:title="Button 2" />
+    <item
+        android:id="@+id/bottom_btn3"
+        android:icon="@drawable/bottom_btn3"
+        android:title="Button 3" />
+    <item
+        android:id="@+id/bottom_btn4"
+        android:icon="@drawable/bottom_btn4"
+        android:title="Button 4" />
+</menu>
