@@ -22,4 +22,5 @@ public class userModal {
     public void setAccountbalance(double accountbalance) {
         this.accountbalance = accountbalance;
     }
+
 }

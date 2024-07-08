@@ -8,7 +8,8 @@ public class CryptoModel {
     private double percentChange24h;
     private double turnover;
 
-    public CryptoModel( String name, String symbol, double price, double percentChange24h, double turnover) {
+    public CryptoModel( int id, String name, String symbol, double price, double percentChange24h, double turnover) {
+        this.id = id;
         this.name = name;
         this.symbol = symbol;
         this.price = price;
@@ -37,5 +38,9 @@ public class CryptoModel {
 
     public double getTurnover() {
         return turnover;
+    }
+
+    public int getid(){
+        return id;
     }
 }

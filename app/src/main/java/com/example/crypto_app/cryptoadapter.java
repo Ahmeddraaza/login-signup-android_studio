@@ -2,14 +2,17 @@ package com.example.crypto_app;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.renderscript.ScriptGroup;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.majorik.sparklinelibrary.SparkLineLayout;
 
 import java.util.ArrayList;
@@ -17,6 +20,10 @@ import java.util.ArrayList;
 public class cryptoadapter extends RecyclerView.Adapter<cryptoadapter.ViewHolder> {
     private Context context;
     private ArrayList<CryptoModel> CryptoList;
+
+
+
+
 
 
     public cryptoadapter(Context context, ArrayList<CryptoModel> CryptoList) {
@@ -32,9 +39,13 @@ public class cryptoadapter extends RecyclerView.Adapter<cryptoadapter.ViewHolder
     }
 
     @Override
-
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CryptoModel crypto = CryptoList.get(position);
+
+        Glide.with(context).load(
+
+                "https://s2.coinmarketcap.com/static/img/coins/64x64/"+ crypto.getid() + ".png").thumbnail(Glide.with(context).load(R.drawable.bitcoin)).into(holder.imageView);
+
 
         holder.nameTextView.setText(crypto.getName());
         holder.priceTextView.setText(String.format("$%.2f", crypto.getPrice()));
@@ -74,6 +85,8 @@ public class cryptoadapter extends RecyclerView.Adapter<cryptoadapter.ViewHolder
         TextView nameTextView, priceTextView,priceTextView2, percentChangeTextView, quantityTextView ;
         SparkLineLayout sparklineLayout;;
 
+        ImageView imageView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.textView16);
@@ -81,6 +94,7 @@ public class cryptoadapter extends RecyclerView.Adapter<cryptoadapter.ViewHolder
             priceTextView2 = itemView.findViewById(R.id.textView19);
             percentChangeTextView = itemView.findViewById(R.id.textView18);
             quantityTextView = itemView.findViewById(R.id.textView20);
+            imageView = itemView.findViewById(R.id.imageView6);
             sparklineLayout = itemView.findViewById(R.id.sparklineLayout);
         }
     }

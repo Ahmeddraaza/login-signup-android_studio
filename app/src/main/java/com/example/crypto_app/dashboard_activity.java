@@ -1,7 +1,11 @@
 package com.example.crypto_app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.crypto_app.apis.ApiUtilities;
 import com.example.crypto_app.apis.apiinterface;
+import com.example.crypto_app.databinding.DashboardBinding;
+import com.example.crypto_app.databinding.SignupActivityBinding;
 import com.example.crypto_app.marketmodel;
 
 import java.util.ArrayList;
@@ -22,6 +28,10 @@ public class dashboard_activity extends AppCompatActivity {
     private static final String TAG = "dashboard_activity";
     TextView profile_name, account_balancee;
     String email;
+
+    DashboardBinding binding;
+
+   ImageView imageView5;
     RecyclerView recyclerView;
     cryptoadapter adapter;
     ArrayList<CryptoModel> cryptoList = new ArrayList<>();
@@ -31,11 +41,14 @@ public class dashboard_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard);
+
+        binding = DashboardBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         profile_name = findViewById(R.id.textView9);
         account_balancee = findViewById(R.id.textView8);
         recyclerView = findViewById(R.id.RecyclerViewnew);
+        imageView5 = findViewById(R.id.imageView5);
 
         email = getIntent().getStringExtra("key_email");
 
@@ -46,6 +59,14 @@ public class dashboard_activity extends AppCompatActivity {
 
         getuserdetails();
         gettopcurrency();
+
+        imageView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(dashboard_activity.this, add_recie_data.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void getuserdetails() {
@@ -85,12 +106,12 @@ public class dashboard_activity extends AppCompatActivity {
                                         if (!dbHelper.checkIfDataExists(id)) {
                                             // Insert only if ID does not exist
                                             dbHelper.insertCryptoData(id,name, symbol, price, percentChange24h, turnover);
-                                            CryptoModel cryptoModel = new CryptoModel(name, symbol, price, percentChange24h, turnover);
+                                            CryptoModel cryptoModel = new CryptoModel(id, name, symbol, price, percentChange24h, turnover);
                                             tempList.add(cryptoModel);
                                         } else {
                                             // Handle case where ID already exists (update or skip)
                                             Log.d(TAG, "ID " + id + " already exists, skipping insertion or updating...");
-                                            CryptoModel cryptoModel = new CryptoModel(name, symbol, price, percentChange24h, turnover);
+                                            CryptoModel cryptoModel = new CryptoModel(id, name, symbol, price, percentChange24h, turnover);
                                             tempList.add(cryptoModel);
                                         }
                                     }
@@ -107,6 +128,7 @@ public class dashboard_activity extends AppCompatActivity {
                             }
                         }
 
+
                         @Override
                         public void onFailure(Call<marketmodel> call, Throwable t) {
                             Log.e(TAG, "Exception in gettopcurrency", t);
@@ -118,6 +140,8 @@ public class dashboard_activity extends AppCompatActivity {
             }
         }).start();
     }
+
+
 
 
 }

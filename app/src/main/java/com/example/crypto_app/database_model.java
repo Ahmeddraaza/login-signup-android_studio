@@ -59,6 +59,33 @@ public class database_model extends SQLiteOpenHelper {
         return exists;
     }
 
+    public boolean add_recive(String email, Double amount) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Boolean exists = false;
+        Cursor cursor = null;
+        try {
+            cursor = MyDatabase.rawQuery("SELECT accountbalance FROM allusers WHERE email = ?", new String[]{email});
+            if (cursor.moveToFirst()) {
+                double balance = cursor.getDouble(0); // Use index 0 as it should be the first column in the result
+                balance = balance + amount;
+
+                ContentValues values = new ContentValues();
+                values.put("accountbalance", balance);
+
+                int rowsAffected = MyDatabase.update("allusers", values, "email = ?", new String[]{email});
+                if (rowsAffected > 0) {
+                    exists = true;
+                }
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+            MyDatabase.close();
+        }
+        return exists;
+    }
+
     public ArrayList<userModal> getLoggedInuserdetail(String email) {
         ArrayList<userModal> userModdals = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();

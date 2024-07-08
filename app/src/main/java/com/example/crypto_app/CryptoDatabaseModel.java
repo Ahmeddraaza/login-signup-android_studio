@@ -63,7 +63,7 @@ public class CryptoDatabaseModel extends SQLiteOpenHelper {
                 double percentChange24h = cursor.getDouble(4);
                 double turnover = cursor.getDouble(5);
 
-                CryptoModel crypto = new CryptoModel(name, symbol, price, percentChange24h, turnover);
+                CryptoModel crypto = new CryptoModel(id, name, symbol, price, percentChange24h, turnover);
                 cryptoList.add(crypto);
             } while (cursor.moveToNext());
         }
